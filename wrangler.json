@@ -1,0 +1,12 @@
+{
+    "$schema": "https://www.unpkg.com/wrangler@3.99.0/config-schema.json",
+    "name": "program.org-frontend",
+    "main": ".worker-next/index.mjs",
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_id": "cb193c1a-f4b7-4438-ac81-2ba707af790a",
+            "database_name": "program.org"
+        }
+    ]
+}

@@ -3,6 +3,7 @@ import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { db } from "~/server/db";
+import { api } from "~/trpc/server";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -21,7 +22,7 @@ declare module "next-auth" {
 
   // interface User {
   //   // ...other properties
-  //   // role: UserRole;
+  // //   // role: UserRole;
   // }
 }
 
@@ -50,25 +51,7 @@ export const authConfig = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const res = await fetch("/your/endpoint", {
-          method: 'POST',
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" }
-        })
-        let user;
-        void res.json().then((data: object) => {
-          if (data) {
-            user = data;
-          }
-          return null
-        })
-  
-        // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user
-        }
-        // Return null if user data could not be retrieved
-        return null
+        api.credentials.validate(credentials);
       }
     })
     /**
